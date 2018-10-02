@@ -35,51 +35,78 @@ app.listen(4000,()=>{
   console.log('4000포트로 웹서버가 실행되었습니다.');
 });
 
-app.get('/test',(req,res)=>{
-  // res.json({number : 10});
-  // 디비 쿼리를 통해서 원하는 값을 보내준다.
 
-  connection.query("SELECT * FROM test",(err,rows)=>{
+//=========== 로그인, 회원가입, 전화번호부 =======================
+
+app.post('/login',(req, res)=>{
+  // console.log(req.body);
+  //API 문서
+  //response { success : 1} -> 성공
+  //  { success : -1} -> 아이디가 없다
+  //  { success : -2} -> 비밀번호가 틀렸다
+
+  connection.query(`SELECT * FROM users WHERE username="${req.body.username}"`,
+  (err,rows)=>{
     if(err){
       console.log(err);
+      return;
     }
-    // console.log(rows[0].number);
-    console.log(rows);
-    res.json({result : rows});
 
+    if( rows.length > 0){
+      if(req.body.userpass == rows[0].userpass){
+        res.json({success : 1 })
+      } else {
+        res.json({success : -2 })
+      }
+    } else {
+        res.json({success : -1 })
+    }
+    console.log(rows);
   });
+
+  // res.json({success : 1 });
+});
+
+app.post('/register',(req,res)=>{
+
+    connection.query('INSERT INTO users SET ?', req.body ,
+    (err,rows)=>{
+      if(err){
+        console.log(err);
+        return;
+      }
+
+      res.json({success : 1 })
+
+
+      console.log(rows);
+
+    });
+});
+
+app.post('/phone', (req,res)=>{
+  console.log(req.body);
+
+  let name = req.body.phoneName;
+  let number = req.body.phoneNumber;
+
+  connection.query(`INSERT INTO phone (name, number) VALUES
+  ("${name}", "${number}" )`,(err,rows)=>{
+    (err) && console.log(err);
+  });
+
+  res.json({success : 1 });
+
 });
 
 
-app.post('/test',(req,res)=>{
-  // console.log('a');
-  // 데이터는 BODY를 통해서 넘어온다.
-  console.log(req.body.num);
+app.get('/phone',(req,res)=>{
 
-  // 디비에 insert 를 사용해서 데이터를 넣는다.
-  /*connection.query('INSERT INTO test SET ?',{number : req.body.num},
-  (err,rows)=>{
-    if(err){
-      console.log(err);
-    }
-    console.log(rows);
-  });*/
+  connection.query("SELECT * FROM phone",(err,rows)=>{
+    (err) && console.log(err);
 
-  connection.query('INSERT INTO test SET number="'+req.body.num +'"',
-  (err,rows)=>{
-    if(err){
-      console.log(err);
-    }
     console.log(rows);
-    connection.query("SELECT * FROM test",(err,rows)=>{
-      if(err){
-        console.log(err);
-      }
-      // console.log(rows[0].number);
-      console.log(rows);
-      res.json({message : '잘 받았어', result : rows});
-    });
+    res.json({success : 1 , result : rows});
+
   });
-
-  // res.json({message : '잘 받았어'});
 });
