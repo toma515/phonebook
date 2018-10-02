@@ -7,11 +7,11 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
 const connection = mysql.createConnection({
-  host : 'localhost',
-  port : '3306',
-  user : 'root',
-  password : '3569rudtj',
-  database : 'phonebook'
+  host : '####',
+  port : '####',
+  user : '####',
+  password : '####',
+  database : '####'
 });
 
 connection.connect((err)=>{
