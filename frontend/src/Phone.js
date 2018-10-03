@@ -25,9 +25,9 @@ class Phone extends Component {
   }
 
   handleClick_Save(){
-    axios.post("http://localhost:4000/phone",this.state)
+    axios.post("http://localhost:4000/save",this.state)
     .then(response=>{
-      console.log(response);
+      // console.log(response);
       // this.getList();
       let list = this.state.phoneList;
       this.setState({ phoneList : list.concat(
@@ -45,7 +45,17 @@ handleClick_Modify(){
 
 }
 
-handleClick_Delete(){
+handleClick_Delete(name, number){
+  let data = {name, number} ;
+  axios.post("http://localhost:4000/delete", data )
+  .then(response=>{
+    console.log(response);
+    this.getList();
+  })
+  .catch(error=>{
+    console.log(error);
+  });
+
 
 }
 
@@ -68,8 +78,12 @@ handleClick_Delete(){
         <div key={value.phone_id} style={styles}>
           <div>이름 : {value.name}</div>
           <div>전화번호 : {value.number}</div>
+          <input type="text" name="phoneName" onChange={this.handleChange.bind(this)}
+            value={value.name}/>
+          <input type="text" name="phoneNumber" onChange={this.handleChange.bind(this)}
+            value={value.number}/>
           <button onClick={this.handleClick_Modify.bind(this)}>수정</button>
-          <button onClick={this.handleClick_Delete.bind(this)}>삭제</button>
+          <button onClick={this.handleClick_Delete.bind(this, value.name, value.number)}>삭제</button>
         </div>
         );
     });

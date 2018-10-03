@@ -84,8 +84,8 @@ app.post('/register',(req,res)=>{
     });
 });
 
-app.post('/phone', (req,res)=>{
-  console.log(req.body);
+app.post('/save', (req,res)=>{
+  // console.log(req.body);
 
   let name = req.body.phoneName;
   let number = req.body.phoneNumber;
@@ -97,6 +97,22 @@ app.post('/phone', (req,res)=>{
 
   res.json({success : 1 });
 
+});
+
+app.post('/modify', (req,res)=>{
+  console.log(req.body);
+
+});
+
+app.post('/delete', (req,res)=>{
+  console.log(req.body);
+
+  connection.query(`DELETE FROM phone WHERE name ="${req.body.name}" AND number="${req.body.number}"`
+  ,(error, results, fields)=>{
+  (err) && console.log(err);
+});
+
+  res.json({ name : req.body.data});
 });
 
 
