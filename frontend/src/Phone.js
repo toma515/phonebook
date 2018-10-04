@@ -41,12 +41,24 @@ class Phone extends Component {
     });
   }
 
-handleClick_Modify(){
-
+handleClick_Modify(data){
+  console.log(data);
+  data = {  name : (this.state.phoneName.length === 0)? data.name : this.state.phoneName ,
+            number: (this.state.phoneNumber.length === 0)? data.number : this.state.phoneNumber,
+            phone_id : data.phone_id
+        }
+  axios.post("http://localhost:4000/modify", data )
+  .then(response=>{
+    console.log(response);
+    this.getList();
+  })
+  .catch(error=>{
+    console.log(error);
+  });
 }
 
-handleClick_Delete(name, number){
-  let data = {name, number} ;
+handleClick_Delete(id){
+  let data = { id } ;
   axios.post("http://localhost:4000/delete", data )
   .then(response=>{
     console.log(response);
@@ -79,11 +91,11 @@ handleClick_Delete(name, number){
           <div>이름 : {value.name}</div>
           <div>전화번호 : {value.number}</div>
           <input type="text" name="phoneName" onChange={this.handleChange.bind(this)}
-            value={value.name}/>
+             placeholder={value.name}/>
           <input type="text" name="phoneNumber" onChange={this.handleChange.bind(this)}
-            value={value.number}/>
-          <button onClick={this.handleClick_Modify.bind(this)}>수정</button>
-          <button onClick={this.handleClick_Delete.bind(this, value.name, value.number)}>삭제</button>
+            placeholder={value.number}/>
+          <button onClick={this.handleClick_Modify.bind(this, value)}>수정</button>
+          <button onClick={this.handleClick_Delete.bind(this, value.phone_id)}>삭제</button>
         </div>
         );
     });

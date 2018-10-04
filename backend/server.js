@@ -101,16 +101,22 @@ app.post('/save', (req,res)=>{
 
 app.post('/modify', (req,res)=>{
   console.log(req.body);
+  connection.query(`UPDATE phone SET
+    name = ${req.body.name}, number = ${req.body.number} WHERE phone_id = ${req.body.phone_id}`
+    , (err, rows )=>{
+  (err) && console.log(err);
+  });
+
 
 });
 
 app.post('/delete', (req,res)=>{
   console.log(req.body);
 
-  connection.query(`DELETE FROM phone WHERE name ="${req.body.name}" AND number="${req.body.number}"`
-  ,(error, results, fields)=>{
+  connection.query(`DELETE FROM phone WHERE
+    phone_id ="${req.body.id}"`, (err, rows )=>{
   (err) && console.log(err);
-});
+  });
 
   res.json({ name : req.body.data});
 });
