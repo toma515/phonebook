@@ -101,12 +101,13 @@ app.post('/save', (req,res)=>{
 
 app.post('/modify', (req,res)=>{
   console.log(req.body);
-  connection.query(`UPDATE phone SET
-    name = ${req.body.name}, number = ${req.body.number} WHERE phone_id = ${req.body.phone_id}`
-    , (err, rows )=>{
-  (err) && console.log(err);
-  });
 
+  connection.query('UPDATE phone SET name = ?, number = ? WHERE phone_id = ?',
+    [req.body.name, req.body.number, req.body.phone_id],
+    (err, rows )=>{
+      (err) && console.log(err);
+  });
+  res.json({ data : req.body.name})
 
 });
 

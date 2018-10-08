@@ -47,6 +47,7 @@ handleClick_Modify(data){
             number: (this.state.phoneNumber.length === 0)? data.number : this.state.phoneNumber,
             phone_id : data.phone_id
         }
+  console.log(data);
   axios.post("http://localhost:4000/modify", data )
   .then(response=>{
     console.log(response);
