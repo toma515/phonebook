@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { loginToggle } from './actions/loggedToggle';
 
 class Login extends Component {
   state = {
@@ -16,7 +18,9 @@ class Login extends Component {
       .then( (response)=>{
           console.log(response.data);
           if(response.data.success === 1){
+            this.props.onLogin();
             this.props.history.push('/phone');
+
           }
           if (response.data.success === -1 || response.data.success === -2) {
             alert(response.data.success);
@@ -42,4 +46,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+// const mapStateToProps = (state)=>{
+//   return{
+//     logged : state.loginout.logged
+//   }
+// }
+
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    onLogin : ()=>{ dispatch(loginToggle())}
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Login);

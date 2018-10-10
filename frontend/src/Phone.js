@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
+
 class Phone extends Component {
   state = {
     phoneName : '',
@@ -81,6 +82,8 @@ handleClick_Delete(id){
 
 
   render() {
+    console.log(this.props);
+
     const {phoneList} = this.state;
     const styles ={
       padding:20, borderWidth:1, borderStyle: 'solid',
@@ -89,6 +92,7 @@ handleClick_Delete(id){
     const list = phoneList.map((value,index)=>{
       return(
         <div key={value.phone_id} style={styles}>
+          {/* { !this.props.logged && <Redirect to="/" /> } */}
           <div>이름 : {value.name}</div>
           <div>전화번호 : {value.number}</div>
           <input type="text" name="phoneName" onChange={this.handleChange.bind(this)}
