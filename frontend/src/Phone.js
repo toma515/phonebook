@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
+import {connect} from 'react-redux';
 
 class Phone extends Component {
   state = {
@@ -82,7 +82,7 @@ handleClick_Delete(id){
 
 
   render() {
-    console.log(this.props);
+    console.log(this.props.username);
 
     const {phoneList} = this.state;
     const styles ={
@@ -108,7 +108,7 @@ handleClick_Delete(id){
 
     return (
         <div>
-          <h2>전화번호부</h2>
+          <h2>{this.props.username} 님 전화번호부</h2>
           <input type="text" name="phoneName" onChange={this.handleChange.bind(this)} />
           <input type="text" name="phoneNumber" onChange={this.handleChange.bind(this)} />
           <button onClick={this.handleClick_Save.bind(this)}>저장하기</button>
@@ -120,4 +120,11 @@ handleClick_Delete(id){
   }
 }
 
-export default Phone;
+const mapStateToProps = (state)=>{
+  return{
+    userid : state.login.userid,
+    username : state.login.username
+  }
+}
+
+export default connect(mapStateToProps,null)(Phone);

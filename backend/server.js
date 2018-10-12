@@ -54,12 +54,12 @@ app.post('/login',(req, res)=>{
 
     if( rows.length > 0){
       if(req.body.userpass == rows[0].userpass){
-        res.json({success : 1 })
+        res.json({success : 1, result : rows[0] });
       } else {
-        res.json({success : -2 })
+        res.json({success : -2 });
       }
     } else {
-        res.json({success : -1 })
+        res.json({success : -1 });
     }
     console.log(rows);
   });
@@ -93,9 +93,10 @@ app.post('/save', (req,res)=>{
   connection.query(`INSERT INTO phone (name, number) VALUES
   ("${name}", "${number}" )`,(err,rows)=>{
     (err) && console.log(err);
+    res.json({success : 1 });
   });
 
-  res.json({success : 1 });
+
 
 });
 
@@ -106,8 +107,9 @@ app.post('/modify', (req,res)=>{
     [req.body.name, req.body.number, req.body.phone_id],
     (err, rows )=>{
       (err) && console.log(err);
+      res.json({ data : req.body.name});
   });
-  res.json({ data : req.body.name})
+
 
 });
 
@@ -117,9 +119,11 @@ app.post('/delete', (req,res)=>{
   connection.query(`DELETE FROM phone WHERE
     phone_id ="${req.body.id}"`, (err, rows )=>{
   (err) && console.log(err);
-  });
 
   res.json({ name : req.body.data});
+  });
+
+
 });
 
 

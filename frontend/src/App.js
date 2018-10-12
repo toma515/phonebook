@@ -25,7 +25,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <h1>프론트엔드</h1>
+          <h1>REST 전화번호부</h1>
           <Link to="/">로그인</Link>
           <Link to="/register">회원가입</Link>
           <Link to={phoneURL} onClick={this.loginCheck.bind(this)}>전화번호부</Link>
@@ -44,7 +44,7 @@ class App extends Component {
 
 const mapStateToProps = (state)=>{
   return{
-      logged : state.loginout.logged
+      logged : state.login.logged
   }
 }
 
