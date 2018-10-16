@@ -1,9 +1,9 @@
-import {combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
-import login from './login';
+import logReducer from './logReducer';
 
 const reducers = combineReducers({
-  login
+  logReducer
 });
 
 export default reducers;

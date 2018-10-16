@@ -10,7 +10,7 @@ class Phone extends Component {
   }
 
   getList(){
-    axios.get("http://localhost:4000/phone")
+    axios.get("http://localhost:4000/phone/"+ this.props.userid )
     .then((response)=>{
       if(response.data.success === 1){
         this.setState({phoneList : response.data.result});
@@ -26,15 +26,23 @@ class Phone extends Component {
   }
 
   handleClick_Save(){
-    axios.post("http://localhost:4000/save",this.state)
+    let data = {
+      name : this.state.phoneName,
+      number : this.state.phoneNumber,
+      user_id : this.props.userid
+    }
+
+    axios.post("http://localhost:4000/save",data)
     .then(response=>{
       // console.log(response);
-      // this.getList();
-      let list = this.state.phoneList;
-      this.setState({ phoneList : list.concat(
-          {name : this.state.phoneName, number : this.state.phoneNumber}
-        )}
-      );
+
+      this.getList();
+
+      // let list = this.state.phoneList;
+      // this.setState({ phoneList : list.concat(
+      //     {name : this.state.phoneName, number : this.state.phoneNumber}
+      //   )}
+      // );
       // concat은 배열과 배열을 합해서 새로운 배열을 만든다.
     })
     .catch(error=>{
@@ -43,15 +51,15 @@ class Phone extends Component {
   }
 
 handleClick_Modify(data){
-  console.log(data);
+  // console.log(data);
   data = {  name : (this.state.phoneName.length === 0)? data.name : this.state.phoneName ,
             number: (this.state.phoneNumber.length === 0)? data.number : this.state.phoneNumber,
             phone_id : data.phone_id
         }
-  console.log(data);
+  // console.log(data);
   axios.post("http://localhost:4000/modify", data )
   .then(response=>{
-    console.log(response);
+    console.log(response.result);
     this.getList();
   })
   .catch(error=>{
@@ -69,20 +77,29 @@ handleClick_Delete(id){
   .catch(error=>{
     console.log(error);
   });
+}
 
+handleClick_logout(){
+  // this.props.history.push(`/`);
+  // this.props.history.replace('/');
+  // this.props.history.goback();
+  this.props.history.goForward();
+
+  console.log(this.props.history);
+  // this.props.onLogout();
 
 }
 
 
 
   componentDidMount(){
-    this.getList()
+    this.getList();
   }
 
 
 
   render() {
-    console.log(this.props.username);
+    // console.log(this.props.userid);
 
     const {phoneList} = this.state;
     const styles ={
@@ -108,7 +125,7 @@ handleClick_Delete(id){
 
     return (
         <div>
-          <h2>{this.props.username} 님 전화번호부</h2>
+          <h2 >{this.props.username} 님 전화번호부</h2>
           <input type="text" name="phoneName" onChange={this.handleChange.bind(this)} />
           <input type="text" name="phoneNumber" onChange={this.handleChange.bind(this)} />
           <button onClick={this.handleClick_Save.bind(this)}>저장하기</button>
@@ -122,9 +139,10 @@ handleClick_Delete(id){
 
 const mapStateToProps = (state)=>{
   return{
-    userid : state.login.userid,
-    username : state.login.username
+    userid : state.logReducer.userid,
+    username : state.logReducer.username
   }
 }
+
 
 export default connect(mapStateToProps,null)(Phone);

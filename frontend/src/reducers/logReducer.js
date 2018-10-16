@@ -1,21 +1,25 @@
 const initialState ={
   logged : false,
-  userid : '',
+  logName : '로그인',
+  userid : 0,
   username : ''
+
 }
 
-const loggedControl = ( state = initialState , action )=>{
+const loginControl = ( state = initialState , action )=>{
   switch (action.type) {
     case 'LOGIN':
       return{
         logged : true,
-        userid : action.id,
+        logName : "로그아웃",
+        userid : action.userid,
         username : action.username
       }
     case 'LOGOUT':
       return{
         logged : false,
-        userid : action.id,
+        logName : "로그인",
+        userid : 0,
         username : ''
       }
 
@@ -26,4 +30,4 @@ const loggedControl = ( state = initialState , action )=>{
 
 }
 
-export default loggedControl;
+export default loginControl;

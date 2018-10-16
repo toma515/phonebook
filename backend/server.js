@@ -61,7 +61,7 @@ app.post('/login',(req, res)=>{
     } else {
         res.json({success : -1 });
     }
-    console.log(rows);
+    // console.log(rows);
   });
 
   // res.json({success : 1 });
@@ -86,12 +86,10 @@ app.post('/register',(req,res)=>{
 
 app.post('/save', (req,res)=>{
   // console.log(req.body);
+ let {name, number, user_id } = req.body;
 
-  let name = req.body.phoneName;
-  let number = req.body.phoneNumber;
-
-  connection.query(`INSERT INTO phone (name, number) VALUES
-  ("${name}", "${number}" )`,(err,rows)=>{
+  connection.query(`INSERT INTO phone (name, number, user_id) VALUES
+  ("${name}", "${number}",${user_id} )`,(err,rows)=>{
     (err) && console.log(err);
     res.json({success : 1 });
   });
@@ -107,7 +105,7 @@ app.post('/modify', (req,res)=>{
     [req.body.name, req.body.number, req.body.phone_id],
     (err, rows )=>{
       (err) && console.log(err);
-      res.json({ data : req.body.name});
+      res.json({ result : rows});
   });
 
 
@@ -127,12 +125,14 @@ app.post('/delete', (req,res)=>{
 });
 
 
-app.get('/phone',(req,res)=>{
+app.get('/phone/:id',(req,res)=>{
+  console.log(req.params.id);
+  const { id } = req.params;
 
-  connection.query("SELECT * FROM phone",(err,rows)=>{
+  connection.query(`SELECT * FROM phone WHERE user_id=${id}`,(err,rows)=>{
     (err) && console.log(err);
 
-    console.log(rows);
+    // console.log(rows);
     res.json({success : 1 , result : rows});
 
   });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import { loginToggle } from './actions/login';
+import { loginAction } from '../actions/logAction';
 
 class Login extends Component {
   state = {
@@ -17,12 +17,12 @@ class Login extends Component {
     axios.post("http://localhost:4000/login",this.state)
       .then( (response)=>{
           console.log(response.data);
-          let {id, username} = response.data.result;
 
           if(response.data.success === 1){
+            let { id, username } = response.data.result;
             this.props.onLogin(id, username);
             alert(`${username}님 환영합니다.`);
-            this.props.history.push('/phone');
+            this.props.history.push('/phone/'+id);
 
           }
           if (response.data.success === -1 || response.data.success === -2) {
@@ -57,7 +57,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch)=>{
   return{
-    onLogin : (userid, username)=>{ dispatch(loginToggle(userid, username))}
+    onLogin : (userid, username)=>{ dispatch(loginAction(userid, username))}
   }
 }
 
