@@ -39,7 +39,6 @@ app.listen(4000,()=>{
 //=========== 로그인, 회원가입, 전화번호부 =======================
 
 app.post('/login',(req, res)=>{
-  // console.log(req.body);
   //API 문서
   //response { success : 1} -> 성공
   //  { success : -1} -> 아이디가 없다
@@ -68,23 +67,54 @@ app.post('/login',(req, res)=>{
 });
 
 app.post('/register',(req,res)=>{
+  //API 문서
+  //response { success : 1} -> 성공
+  //  { success : -1} -> 아이디 입력 x
+  //  { success : -2} -> 비밀번호가 입력 x
+  //  { success : -3} -> 아이디 중복
+  if(req.body.username.length > 0 ){
 
-    connection.query('INSERT INTO users SET ?', req.body ,
+    connection.query(`SELECT * FROM users WHERE username="${req.body.username}"`,
     (err,rows)=>{
       if(err){
         console.log(err);
         return;
       }
 
-      res.json({success : 1 })
+      if(req.body.username == rows[0].username){
+        res.json({success : -3 });
+      }else{
 
+      }
 
-      console.log(rows);
 
     });
+
+  }else{
+    res.json({success : -1 });
+  }
+
+
+
+
+
+
+    // connection.query('INSERT INTO users SET ?', req.body ,
+    // (err,rows)=>{
+    //   if(err){
+    //     console.log(err);
+    //     return;
+    //   }
+    //
+    //   res.json({success : 1 })
+    //
+    //
+    //   console.log(rows);
+    //
+    // });
 });
 
-app.post('/save', (req,res)=>{
+app.post('/phone/save', (req,res)=>{
   // console.log(req.body);
  let {name, number, user_id } = req.body;
 
@@ -98,7 +128,7 @@ app.post('/save', (req,res)=>{
 
 });
 
-app.post('/modify', (req,res)=>{
+app.post('/phone/modify', (req,res)=>{
   console.log(req.body);
 
   connection.query('UPDATE phone SET name = ?, number = ? WHERE phone_id = ?',
@@ -111,7 +141,7 @@ app.post('/modify', (req,res)=>{
 
 });
 
-app.post('/delete', (req,res)=>{
+app.post('/phone/delete', (req,res)=>{
   console.log(req.body);
 
   connection.query(`DELETE FROM phone WHERE

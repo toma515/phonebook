@@ -3,8 +3,11 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import { loginAction } from '../actions/logAction';
 
+
+
 class Login extends Component {
   state = {
+
     username : '',
     userpass : ''
   }
@@ -24,10 +27,13 @@ class Login extends Component {
             alert(`${username}님 환영합니다.`);
             this.props.history.push('/phone/'+id);
 
+          }else if (response.data.success === -1) {
+            alert("아이디 오류. 다시입력해주세요");
+          }else if ( response.data.success === -2) {
+            alert("비밀번호 오류. 다시입력해주세요");
+
           }
-          if (response.data.success === -1 || response.data.success === -2) {
-            alert(response.data.success);
-          }
+
       })
       .catch( (error)=>{
         console.log(error);
@@ -38,11 +44,19 @@ class Login extends Component {
     return (
         <div>
           <h2>로그인</h2>
-          <input type="text" name="username"
-            onChange={this.handleChange.bind(this)} />
+          <div>
+            <span>아이디 : </span>
+            <input type="text" name="username"
+              onChange={this.handleChange.bind(this)} />
+          </div>
+          <div>
+            <span>비밀번호 : </span>
             <input type="password" name="userpass"
             onChange={this.handleChange.bind(this)} />
+          </div>
+
           <button onClick={this.handleClick.bind(this)} >로그인하기</button>
+
         </div>
 
     );

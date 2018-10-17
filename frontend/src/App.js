@@ -6,6 +6,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Phone from './components/Phone';
 
+import "./components/test.css";
+
 class App extends Component {
 
   render() {

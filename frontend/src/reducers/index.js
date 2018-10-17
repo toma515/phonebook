@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 
 import logReducer from './logReducer';
+import phoneReducer from './phoneReducer';
 
 const reducers = combineReducers({
-  logReducer
+  logReducer, phoneReducer
 });
 
 export default reducers;
