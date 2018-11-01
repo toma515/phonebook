@@ -1,0 +1,67 @@
+/* 초기화 */
+* { margin:0; padding:0; }
+a { text-decoration: none; outline: none; }
+button { border-style : none; background-color: white; }
+
+/* common */
+span {
+  text-align: left; width: 100px; margin-right: 10px; display: inline-block;
+  font-size: 18px; font-weight: bold;
+}
+input { width: 200px; height: 30px; }
+
+button { font-size: 15px; font-weight: bold; border-style : none;
+  border: 2px solid blue; }
+
+.btn_1 { width: 45%; height: 45px; display: inline-block;
+   background-color: white; color: blue;  }
+.btn_1:hover { background-color: blue; color: white; }
+
+.btn_2 { width: 100px; height: 30px; display: inline-block; color: blue; }
+.btn_2:hover { background-color: blue; color: white; }
+
+/* app */
+.container{
+  width: 664px; padding: 20px; margin: 30px auto;
+  box-sizing: border-box;
+}
+
+/* header */
+.header{ text-align: center;}
+
+h1 { padding: 20px; background-color: blue; color:white; }
+.menu { margin: 20px -20px 20px -20px;  }
+a {  width: 179.3px; margin: auto 10px; padding: 5px; display: inline-block;
+  font-size: 15px; color: blue;  font-weight: bold;
+  border: 2px solid blue;  }
+a:hover { background-color: blue; color: white; }
+
+/* login, register */
+h2 { margin: 20px auto;}
+.user { text-align: center; }
+.userid, .userpass{ margin-bottom: 20px;  }
+
+/* phone */
+.list { height: 60px; padding: 20px; border: 1px solid black; margin-top: 20px; position: relative;}
+.listText { font-size: 16px; font-weight: bold; margin-bottom: 14px;}
+.btn_add { position: absolute; top: 0; right: 16px; }
+.btn_collect { position: absolute; width: 100px; top: 15px; right: 15px;}
+.btn_collect .btn_2 { margin-bottom: 10px;}
+
+/* popup */
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.5);
+}
+.popup_inner {
+  text-align: center;
+  border: 1px solid blue;
+  width: 400px; height: 250px;
+  position: absolute;
+  top: 30%; left: 36%;
+  background-color: white;
+}

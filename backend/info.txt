@@ -12,5 +12,5 @@
   데이터베이스 -> MySQL
 
 사용모듈 :
-  프론트엔드 -> React , React-Router, Axios
-  백엔드 -> express
+  프론트엔드 -> React , React-Router, Axios, Redux
+  백엔드 -> express. body-parser, cors

@@ -6,7 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Phone from './components/Phone';
 
-import "./components/test.css";
+import "./app.css";
 
 class App extends Component {
 
@@ -14,10 +14,10 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="App">
+        <div className="container">
           <Header />
           <hr/>
-          <div>
+          <div className="content">
             <Route exact path="/" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/phone/:id" component={Phone} />

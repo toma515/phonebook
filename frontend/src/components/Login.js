@@ -3,11 +3,11 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import { loginAction } from '../actions/logAction';
 
+import Layout_ID_PW from './Layout_ID_PW';
 
 
 class Login extends Component {
   state = {
-
     username : '',
     userpass : ''
   }
@@ -19,7 +19,6 @@ class Login extends Component {
   handleClick(){
     axios.post("http://localhost:4000/login",this.state)
       .then( (response)=>{
-          console.log(response.data);
 
           if(response.data.success === 1){
             let { id, username } = response.data.result;
@@ -43,31 +42,15 @@ class Login extends Component {
   render() {
     return (
         <div>
-          <h2>로그인</h2>
-          <div>
-            <span>아이디 : </span>
-            <input type="text" name="username"
-              onChange={this.handleChange.bind(this)} />
-          </div>
-          <div>
-            <span>비밀번호 : </span>
-            <input type="password" name="userpass"
-            onChange={this.handleChange.bind(this)} />
-          </div>
-
-          <button onClick={this.handleClick.bind(this)} >로그인하기</button>
-
+          <Layout_ID_PW msg="로그인"
+            handleClick={this.handleClick.bind(this)}
+            handleChange={this.handleChange.bind(this)}
+          />
         </div>
 
     );
   }
 }
-
-// const mapStateToProps = (state)=>{
-//   return{
-//     logged : state.loginout.logged
-//   }
-// }
 
 const mapDispatchToProps = (dispatch)=>{
   return{

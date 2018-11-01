@@ -1,27 +1,27 @@
 const initialState ={
   id : 0,
   phoneName : '',
-  phoneNumber : ''
+  phoneNumber : '',
+  message : ''
 
 }
 
 const phoneControl = ( state = initialState , action )=>{
   switch (action.type) {
-    case 'Save':
+    case 'SAVE':
       return{
-
+        id : 0,
+        phoneName : '',
+        phoneNumber : '',
+        message : 'save'
       }
     case 'MODIFY':
       return{
         id : action.id,
         phoneName : action.name,
-        phoneNumber : action.number
+        phoneNumber : action.number,
+        message : 'modify'
       }
-    case 'DELETE':
-      return{
-
-      }
-
     default:
         return state;
 
