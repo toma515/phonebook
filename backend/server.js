@@ -5,6 +5,8 @@ const app = express();
 const cors = require('cors')();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const pbkdf2Password = require('pbkdf2-password');
+const hasher = pbkdf2Password();
 
 const connection = mysql.createConnection({
   host : '####',
@@ -43,14 +45,17 @@ app.post('/login',(req, res)=>{
     (err) && console.log(err);
 
     if( rows.length > 0){
-      if(req.body.userpass == rows[0].userpass){
-        res.json({success : 1, result : rows[0] });
-      } else {
-        res.json({success : -2 });
-      }
+      hasher({password: req.body.userpass, salt: rows[0].salt}, (err, pass, salt, hash)=>{
+        if(hash == rows[0].userpass){
+          res.json({success : 1 , result : rows[0]});
+        } else {
+          res.json({success : -2 });
+        }
+      });
     } else {
         res.json({success : -1 });
     }
+
   });
 
 });
@@ -62,6 +67,7 @@ app.post('/register',(req,res)=>{
   //  { success : -1} -> 아이디 입력 x
   //  { success : -2} -> 비밀번호가 입력 x
   //  { success : -3} -> 아이디 중복
+
 
   if(req.body.username.length > 0 ){
     connection.query("SELECT * FROM users",
@@ -75,12 +81,19 @@ app.post('/register',(req,res)=>{
       }
 
         if(req.body.userpass.length > 0){
-          connection.query('INSERT INTO users SET ?', req.body ,
-          (err,rows)=>{
-            (err) && console.log(err);
+          hasher({password: req.body.userpass}, (err, pass, salt, hash)=>{
+            result = {
+              username : req.body.username,
+              userpass : hash,
+              salt : salt
+            };
+            connection.query('INSERT INTO users SET ?', result ,
+            (err,rows)=>{
+              (err) && console.log(err);
 
-            res.json({success : 1 })
+              res.json({success : 1 })
 
+            });
           });
         }else{
           res.json({success : -2 });
@@ -119,7 +132,7 @@ app.post('/phone', (req,res)=>{
 
  let {name, number, id } = req.body;
 
- connection.query("SELECT * FROM phone",
+ connection.query(`SELECT * FROM phone WHERE user_id="${id}"`,
  (err,rows)=>{
    (err) && console.log(err);
 

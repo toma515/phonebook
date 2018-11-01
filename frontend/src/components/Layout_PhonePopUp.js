@@ -77,7 +77,7 @@ class Layout_PhonePopUp extends Component {
               onKeyPress={this.handleKeyPress.bind(this)} placeholder={name}/>
           </div>
           <div className="userpass">
-             <span>비밀번호 : </span>
+             <span>전화번호 : </span>
              <input type="text" name="phoneNumber" onChange={this.handleChange.bind(this)}
                onKeyPress={this.handleKeyPress.bind(this)} placeholder={number}/>
           </div>
